@@ -18,6 +18,8 @@ services:
      image: wordpress:latest
      ports:
        - 8081:80
+     expose:
+       - 8081
      restart: always
      volumes:
        - ./wordpress:/var/www/html
