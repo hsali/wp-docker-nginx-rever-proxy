@@ -6,6 +6,8 @@ services:
      volumes:
        - ./db:/var/lib/mysql
      restart: always
+     networks:
+       - myappnetwork
      environment:
        MYSQL_ROOT_PASSWORD: easytoguess
        MYSQL_DATABASE: wordpress
@@ -16,10 +18,8 @@ services:
      depends_on:
        - db
      image: wordpress:latest
-     ports:
-       - 8081:80
-     expose:
-       - 8081
+     networks:
+       - myappnetwork
      restart: always
      volumes:
        - ./wordpress:/var/www/html
@@ -32,8 +32,16 @@ services:
    nginx:
      depends_on:
        - wordpress
+     networks:
+       - myappnetwork
      build:
        context: .
        dockerfile: nginx.Dockerfile
      ports:
        - "80:80"
+
+
+networks:
+  myappnetwork:
+      driver: bridge
+      
